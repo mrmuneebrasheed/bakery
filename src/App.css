@@ -6,7 +6,12 @@
   height: 40vmin;
   pointer-events: none;
 }
-
+.container {
+  box-shadow: 0 0 50px 5px black;
+}
+.title {
+  box-shadow: 0 0 50px 5px rgb(177, 177, 241);
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

@@ -18,7 +18,7 @@ class Add extends React.Component {
   render() {
     return (
       <>
-        <div className="h3 bg-white my-3 p-2 border rounded">Add Item</div>
+        <div className="h3 bg-light my-3 p-2">Add Item</div>
         <div>
           <input
             className="col-10 p-2"
