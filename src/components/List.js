@@ -11,7 +11,7 @@ class List extends React.Component {
               key={item.id}
               className="row h4 p-2 bg-white mt-2 border border-secondary"
             >
-              <div className="text-dark col-7">{item.name} </div>
+              <div className="text-dark col-7">{item.name.toLowerCase()}</div>
               <div className="text-center text-white col-2 bg-primary p-1 border border-rounded">
                 {item.price}€
               </div>

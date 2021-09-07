@@ -1,4 +1,5 @@
 import React from "react";
+import image from "../images/download.png";
 class Card extends React.Component {
   constructor() {
     super();
@@ -8,13 +9,14 @@ class Card extends React.Component {
   }
   componentDidMount() {
     fetch(
-      `https://raw.githubusercontent.com/konexio/digitous-assest/main/bakery/${this.props.productName}.png`
+      `https://raw.githubusercontent.com/konexio/digitous-assest/main/bakery/${this.props.productName.toLowerCase()}.png`
     )
       .then((result) => result.blob())
       .then((result) => {
         const image = URL.createObjectURL(result);
         this.setState({ image: image });
-      });
+      })
+      .catch(this.setState({ image: image }));
   }
   sendData() {
     this.props.onClick(this.props.productName, this.props.price);

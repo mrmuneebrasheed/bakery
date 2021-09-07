@@ -25,10 +25,22 @@ class App extends React.Component {
   }
   addItem(productName, productPrice) {
     if (productName.trim() === "") return;
-    const items = [
-      ...this.state.items,
-      { name: productName, price: productPrice, id: Math.random() },
-    ];
+    let items = this.state.items;
+    const isExisting = items.find((item) => item.name === productName);
+    if (isExisting) {
+      items.map((item) => {
+        if (item.name === productName) return "";
+        return "";
+      });
+    }
+    if (!isExisting) {
+      items.push({
+        name: productName,
+        price: productPrice,
+        quantity: 0,
+        id: Math.random(),
+      });
+    }
     this.setState({
       items: items,
       activeTab: "List",
@@ -41,9 +53,7 @@ class App extends React.Component {
   }
   saveHistory(basket) {
     const history = this.state.history;
-    history.push(basket);
-    this.setState({ history: history });
-    console.log(this.state.history);
+    this.setState({ history: history.push(basket) });
   }
   render() {
     return (

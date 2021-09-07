@@ -9,11 +9,17 @@ class History extends React.Component {
         {this.props.history.length !== 0 && (
           <div>
             {this.props.history.map((list, index) => (
-              <ul className="m-3 row border rounded border-dark ">
+              <ul
+                key={Math.random()}
+                className="m-3 row border rounded border-dark "
+              >
                 <li className="h4 text-danger">List: {index + 1}</li>
                 {list.map((item) => (
-                  <li className="h5">
-                    {item.name} {item.price}€
+                  <li key={item.id} className="h5">
+                    {item.quantity !== 0 &&
+                      `${item.name.toLowerCase()} ${item.price}€ x ${
+                        item.quantity
+                      } = ${(item.price * item.quantity).toFixed(2)}€`}
                   </li>
                 ))}
               </ul>

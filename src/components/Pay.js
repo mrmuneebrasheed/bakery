@@ -11,29 +11,41 @@ class Pay extends React.Component {
       totalTTA: 0,
     };
   }
-  handleSelect(name, price) {
+  componentDidMount() {
+    const basket = this.props.list;
+    this.setState({ basket: basket });
+  }
+  handleSelect(name) {
     const basket = this.state.basket;
-    basket.push({ name: name, price: price, quantity: 1 });
+    basket.map((item) => {
+      if (item.name === name) {
+        item.quantity++;
+      }
+      return "";
+    });
     let total = 0,
-      totalEcoTax = 0;
+      totalEcoTax = +this.state.totalEcoTax;
+    totalEcoTax += 0.03;
     this.state.basket.map((item) => {
-      total += +item.price;
-      totalEcoTax += 0.03;
+      total += +item.price * item.quantity;
       return "";
     });
     const totalTVA = (total / 100) * 20;
     const totalTTA = total + totalTVA + totalEcoTax;
     this.setState({
       basket: basket,
-      total: total,
+      total: total.toFixed(2),
       totalEcoTax: totalEcoTax.toFixed(2),
       totalTVA: totalTVA.toFixed(2),
       totalTTA: totalTTA.toFixed(2),
     });
   }
   clearBasket() {
+    const basket = [...this.state.basket];
+    basket.map((item) => (item.quantity = 0));
+
     this.setState({
-      basket: [],
+      basket: basket,
       total: 0,
       totalTVA: 0,
       totalEcoTax: 0,
@@ -41,6 +53,7 @@ class Pay extends React.Component {
     });
   }
   handleSave() {
+    console.log(this.state.basket);
     this.props.saveHistory(this.state.basket);
   }
   render() {
@@ -49,11 +62,17 @@ class Pay extends React.Component {
         <div className="h2">Pay</div>
         <ul>
           {this.state.basket !== [] &&
-            this.state.basket.map((item) => (
-              <li className="h6">
-                {item.name} x {item.quantity}
-              </li>
-            ))}
+            this.state.basket.map(
+              (item) =>
+                item.quantity !== 0 && (
+                  <li key={item.id} className="h6">
+                    {item.quantity !== 0 &&
+                      `${item.name.toLowerCase()} ${item.price}€ x ${
+                        item.quantity
+                      } = ${(item.price * item.quantity).toFixed(2)}€`}
+                  </li>
+                )
+            )}
         </ul>
         <div>
           <p className="h5 text-end">Total: {this.state.total}</p>
@@ -64,7 +83,7 @@ class Pay extends React.Component {
         <div className="d-flex justify-content-evenly flex-wrap">
           {this.props.list.map((item) => (
             <Card
-              key={Math.random()}
+              key={item.id}
               productName={item.name}
               price={item.price}
               onClick={this.handleSelect.bind(this)}
